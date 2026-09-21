@@ -1,0 +1,54 @@
+# Embarcadero C++ Builder / RAD Studio .gitignore
+
+# Pastas de compilação e saída de binários
+Win32/
+Win64/
+Win64x/
+OSX32/
+OSX64/
+iOSDevice32/
+iOSDevice64/
+Android/
+Debug_Build/
+Release_Build/
+
+# Caches e históricos internos do RAD Studio
+__astcache/
+__history/
+__recovery/
+
+# Backups automáticos do IDE
+*.~*
+*.bak
+
+# Arquivos de configuração local do usuário / máquina
+*.local
+*.identcache
+*.stat
+*.dsk
+*.tvsconfig
+
+# Arquivos compilados intermediários e de depuração
+*.obj
+*.o
+*.dcu
+*.tds
+*.pdb
+*.map
+*.ilc
+*.ild
+*.ilf
+*.ils
+*.rsp
+*.lnk
+*.$manifest
+*.vrc
+*.res
+
+# Binários gerados
+*.exe
+*.dll
+*.bpl
+*.bpi
+*.lib
+*.a
