@@ -212,6 +212,59 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 ---
 
+### Pergunta 8: *"Como funciona a rotação em torno de um eixo arbitrário no 3D (os 7 passos)?"*
+* **Onde mostrar no código:**
+  * [`uPonto3D.cpp: linhas 101 a 144`](uPonto3D.cpp#L101-L144) (`Ponto3D::rotacaoEixoArbitrario`).
+  * Botão na UI: [`Uprincipal.cpp: linhas 818 a 848`](Uprincipal.cpp#L818-L848) (`btRotEixoArbitrarioClick`).
+* **Conceito (O que significa):**
+  > As rotações comuns (Rx, Ry, Rz) giram o objeto apenas ao redor dos eixos fixos e retos (horizontal, vertical ou frontal). Girar em eixo arbitrário significa fazer o objeto girar ao redor de **qualquer reta inclinada no espaço**, definida por dois pontos quaisquer P1 e P2 (como um espeto de churrasco atravessando o objeto na diagonal).
+* **Como responder ao Professor:**
+  > *"Professor, a trigonometria de rotação só sabe calcular giros ao redor dos eixos canônicos X, Y ou Z. Para girar ao redor de uma reta inclinada qualquer definida por dois pontos (P1 e P2), usamos o método clássico dos 7 passos de alinhamento:*
+  > 
+  > 1. *Transladamos o ponto P1 da reta para a origem T(-P1);*
+  > 2. *Rotacionamos em X (Rx) para deitar o vetor no plano XY;*
+  > 3. *Rotacionamos em Z (Rz) para alinhar a reta perfeitamente sobre o eixo Y;*
+  > 4. *Aplicamos a rotação desejada pelo ângulo escolhido Ry(graus);*
+  > 5. *Desfazemos a rotação em Z aplicando a inversa Rz(-);*
+  > 6. *Desfazemos a rotação em X aplicando a inversa Rx(-);*
+  > 7. *Desfazemos a translação aplicando a inversa T(+P1) para retornar à posição original.*
+  > 
+  > *Assim, o objeto gira exatamente ao redor daquela reta inclinada sem deformar o resto do cenário."*
+
+---
+
+### Pergunta 9: *"Qual a diferença entre Zoom e Escalonamento?"*
+* **Onde mostrar no código:**
+  * Escalonamento: [`uPoligono.cpp: linhas 237 a 241`](uPoligono.cpp#L237-L241).
+  * Zoom: [`Uprincipal.cpp: linhas 196 a 239`](Uprincipal.cpp#L196-L239).
+* **Como responder:**
+  > *"O **escalonamento** é uma transformação de modelagem que altera diretamente as coordenadas dos vértices do objeto no espaço de mundo (multiplicando X e Y por fatores de escala). O objeto realmente muda de tamanho na memória.*
+  > 
+  > *Já o **zoom** é uma transformação de visualização da câmera 2D. Ele não altera nenhum vértice de nenhum objeto no mundo. O que o zoom faz é diminuir ou aumentar as dimensões da **Janela de Mundo (Window)**. Ao dar Zoom In, reduzimos a janela de mundo; como uma porção menor do universo é mapeada para os mesmos pixels da tela (Viewport), os objetos aparentam estar maiores, mas a sua geometria continua intacta."*
+
+---
+
+### Pergunta 10: *"Por que precisamos da conversão Tela para Mundo no clique do mouse?"*
+* **Onde mostrar no código:**
+  * Funções: [`Uprincipal.cpp: linhas 27 a 33`](Uprincipal.cpp#L27-L33) (`xVp2Mundo` e `yVp2Mundo`).
+  * Clique de Desenho: [`Uprincipal.cpp: linhas 138 a 161`](Uprincipal.cpp#L138-L161) (`Image1MouseDown`).
+* **Como responder:**
+  > *"O evento do mouse entrega coordenadas físicas em pixels da tela (com origem no canto superior esquerdo e Y crescendo para baixo). Porém, todos os polígonos e transformações vivem no Sistema de Coordenadas de Mundo (com origem no centro e Y crescendo para cima).*
+  > 
+  > *As funções `xVp2Mundo` e `yVp2Mundo` aplicam a matemática inversa do Window-to-Viewport, desinvertendo o eixo vertical com `(1 - ...)`. Se salvássemos pixels puros, qualquer Zoom ou Pan futuro não moveria o desenho feito pelo mouse, quebrando a consistência do mundo virtual."*
+
+---
+
+### Pergunta 11: *"O que é o Display File e por que não desenhamos direto na tela?"*
+* **Onde mostrar no código:**
+  * [`uDisplay.cpp: linhas 15 a 60`](uDisplay.cpp#L15-L60) (`DisplayFile`).
+* **Como responder:**
+  > *"O **Display File** é a estrutura de dados central (uma lista de polígonos e objetos 3D) que armazena a descrição geométrica de toda a cena em coordenadas reais de mundo.*
+  > 
+  > *Não podemos desenhar diretamente no Canvas sem salvar porque qualquer evento do sistema — como minimizar a janela, sobrepor outra tela, ou aplicar Pan e Zoom — apagaria o desenho dos pixels. Com o Display File, sempre que a cena precisa ser atualizada, o sistema limpa o Canvas e varre a lista, reprojetando cada objeto na Viewport de forma consistente."*
+
+---
+
 ## ⚡ 4. Colinha de Emergência (Botão -> Arquivo e Linha)
 
 Se o professor apontar para a tela e perguntar *"Onde está o código desse botão?"*:
@@ -229,9 +282,11 @@ Se o professor apontar para a tela e perguntar *"Onde está o código desse bot�
 | **Pirâmide TXT** | Carrega pirâmide de arquivo | [`Uprincipal.cpp: 638`](Uprincipal.cpp#L638) | [`uObjeto3D.cpp: 216`](uObjeto3D.cpp#L216) |
 | **Cubo 3D** | Cria cubo em arame | [`Uprincipal.cpp: 614`](Uprincipal.cpp#L614) | [`uObjeto3D.cpp: 151`](uObjeto3D.cpp#L151) |
 | **Rotações 3D (Rx, Ry, Rz)** | Gira o objeto 3D | [`Uprincipal.cpp: 695`](Uprincipal.cpp#L695) | [`uObjeto3D.cpp: 115`](uObjeto3D.cpp#L115) |
+| **Rot. Eixo Arbitrário 3D** | Gira em reta inclinada (7 passos) | [`Uprincipal.cpp: 818`](Uprincipal.cpp#L818) | [`uPonto3D.cpp: 101`](uPonto3D.cpp#L101) |
 | **Projeções 3D** | Muda Orto/Persp/Cavaleira | [`Uprincipal.cpp: 689`](Uprincipal.cpp#L689) | [`uPonto3D.cpp: 146`](uPonto3D.cpp#L146) |
 | **Curva Casteljau** | Bézier recursivo | [`Uprincipal.cpp: 385`](Uprincipal.cpp#L385) | [`uPoligono.cpp: 326`](uPoligono.cpp#L326) |
 | **Curva Hermite** | Cúbica com tangentes | [`Uprincipal.cpp: 412`](Uprincipal.cpp#L412) | [`uPoligono.cpp: 351`](uPoligono.cpp#L351) |
 | **Curva Bézier** | Polinômios de Bernstein | [`Uprincipal.cpp: 442`](Uprincipal.cpp#L442) | [`uPoligono.cpp: 378`](uPoligono.cpp#L378) |
 | **B-Spline** | B-Spline Uniforme matricial | [`Uprincipal.cpp: 472`](Uprincipal.cpp#L472) | [`uPoligono.cpp: 396`](uPoligono.cpp#L396) |
 | **Forward Diff.** | Diferenças progressivas | [`Uprincipal.cpp: 502`](Uprincipal.cpp#L502) | [`uPoligono.cpp: 427`](uPoligono.cpp#L427) |
+
