@@ -127,7 +127,7 @@ Siga esta ordem na hora de demonstrar o sistema para o professor. É uma sequên
 
 ---
 
-## 🧠 3. As 7 Perguntas Clássicas do Professor (com Código e Resposta)
+## 🧠 3. As 11 Perguntas Clássicas de Arguição do Professor (com Código e Resposta)
 
 Se o professor pedir para abrir o código e explicar, aqui está exatamente o que abrir e o que responder:
 
@@ -267,26 +267,28 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 ## ⚡ 4. Colinha de Emergência (Botão -> Arquivo e Linha)
 
-Se o professor apontar para a tela e perguntar *"Onde está o código desse botão?"*:
+Se o professor apontar para a tela ou seguir a planilha de avaliação, as linhas abaixo estão na **ordem exata de avaliação (1 a 18)**:
 
 | Botão na Tela | O que ele faz | Onde está o clique (UI) | Onde está o cálculo (Modelo) |
 | :--- | :--- | :--- | :--- |
-| **Translação** | Move objeto em X e Y | [`Uprincipal.cpp: 250`](Uprincipal.cpp#L250) | [`uPoligono.cpp: 231`](uPoligono.cpp#L231) |
-| **Escalonamento** | Aumenta/diminui tamanho | [`Uprincipal.cpp: 297`](Uprincipal.cpp#L297) | [`uPoligono.cpp: 237`](uPoligono.cpp#L237) |
-| **Rotação Simples** | Gira em torno de (0,0) | [`Uprincipal.cpp: 316`](Uprincipal.cpp#L316) | [`uPoligono.cpp: 243`](uPoligono.cpp#L243) |
-| **Rot. Homogênea** | Gira no próprio centro | [`Uprincipal.cpp: 334`](Uprincipal.cpp#L334) | [`uPoligono.cpp: 265`](uPoligono.cpp#L265) |
-| **Reflexão X, Y, XY** | Espelha o objeto | [`Uprincipal.cpp: 351`](Uprincipal.cpp#L351) | [`uPoligono.cpp: 307`](uPoligono.cpp#L307) |
-| **Circunferência** | Traça círculo por raio | [`Uprincipal.cpp: 270`](Uprincipal.cpp#L270) | [`uPoligono.cpp: 124`](uPoligono.cpp#L124) |
-| **Clipping** | Corta polígono na caixa | [`Uprincipal.cpp: 525`](Uprincipal.cpp#L525) | [`uPoligono.cpp: 478`](uPoligono.cpp#L478) |
-| **Pan e Zoom** | Move e amplia a câmera | [`Uprincipal.cpp: 196`](Uprincipal.cpp#L196) | [`Uprincipal.cpp: 163`](Uprincipal.cpp#L163) |
-| **Pirâmide TXT** | Carrega pirâmide de arquivo | [`Uprincipal.cpp: 638`](Uprincipal.cpp#L638) | [`uObjeto3D.cpp: 216`](uObjeto3D.cpp#L216) |
-| **Cubo 3D** | Cria cubo em arame | [`Uprincipal.cpp: 614`](Uprincipal.cpp#L614) | [`uObjeto3D.cpp: 151`](uObjeto3D.cpp#L151) |
-| **Rotações 3D (Rx, Ry, Rz)** | Gira o objeto 3D | [`Uprincipal.cpp: 695`](Uprincipal.cpp#L695) | [`uObjeto3D.cpp: 115`](uObjeto3D.cpp#L115) |
-| **Rot. Eixo Arbitrário 3D** | Gira em reta inclinada (7 passos) | [`Uprincipal.cpp: 818`](Uprincipal.cpp#L818) | [`uPonto3D.cpp: 101`](uPonto3D.cpp#L101) |
-| **Projeções 3D** | Muda Orto/Persp/Cavaleira | [`Uprincipal.cpp: 689`](Uprincipal.cpp#L689) | [`uPonto3D.cpp: 146`](uPonto3D.cpp#L146) |
-| **Curva Casteljau** | Bézier recursivo | [`Uprincipal.cpp: 385`](Uprincipal.cpp#L385) | [`uPoligono.cpp: 326`](uPoligono.cpp#L326) |
-| **Curva Hermite** | Cúbica com tangentes | [`Uprincipal.cpp: 412`](Uprincipal.cpp#L412) | [`uPoligono.cpp: 351`](uPoligono.cpp#L351) |
-| **Curva Bézier** | Polinômios de Bernstein | [`Uprincipal.cpp: 442`](Uprincipal.cpp#L442) | [`uPoligono.cpp: 378`](uPoligono.cpp#L378) |
-| **B-Spline** | B-Spline Uniforme matricial | [`Uprincipal.cpp: 472`](Uprincipal.cpp#L472) | [`uPoligono.cpp: 396`](uPoligono.cpp#L396) |
-| **Forward Diff.** | Diferenças progressivas | [`Uprincipal.cpp: 502`](Uprincipal.cpp#L502) | [`uPoligono.cpp: 427`](uPoligono.cpp#L427) |
+| **1. Transformadas** | Mundo para Viewport (Tela) | Desenho contínuo no Canvas | [`Unit1.cpp: 19–27`](Unit1.cpp#L19-L27) |
+| **2. Movimentação** | Pan e Zoom (Câmera 2D) | [`Uprincipal.cpp: 196`](Uprincipal.cpp#L196) | [`Uprincipal.cpp: 163`](Uprincipal.cpp#L163) |
+| **3. Mundo** | Tela para Mundo (Mouse) | [`Uprincipal.cpp: 82`](Uprincipal.cpp#L82) / [`138`](Uprincipal.cpp#L138) | [`Uprincipal.cpp: 27–33`](Uprincipal.cpp#L27-L33) |
+| **4. Reta DDA** | Traçado DDA (RadioGroup = 1) | [`Uprincipal.cpp: 167`](Uprincipal.cpp#L167) | [`uPoligono.cpp: 19`](uPoligono.cpp#L19) |
+| **5. Bresenham** | Traçado Bresenham (RadioGroup = 2) | [`Uprincipal.cpp: 167`](Uprincipal.cpp#L167) | [`uPoligono.cpp: 60`](uPoligono.cpp#L60) |
+| **6. Circunferência** | Traça círculo por raio | [`Uprincipal.cpp: 270`](Uprincipal.cpp#L270) | [`uPoligono.cpp: 124`](uPoligono.cpp#L124) |
+| **7. Translação** | Move objeto em X e Y | [`Uprincipal.cpp: 250`](Uprincipal.cpp#L250) | [`uPoligono.cpp: 231`](uPoligono.cpp#L231) |
+| **8. Rotação Simples (rot)** | Gira em torno de (0,0) | [`Uprincipal.cpp: 316`](Uprincipal.cpp#L316) | [`uPoligono.cpp: 243`](uPoligono.cpp#L243) |
+| **9. Escalonamento (esc)** | Aumenta/diminui tamanho | [`Uprincipal.cpp: 297`](Uprincipal.cpp#L297) | [`uPoligono.cpp: 237`](uPoligono.cpp#L237) |
+| **10. Reflexão (reflexao)** | Espelha nos eixos X, Y e XY | [`Uprincipal.cpp: 351`](Uprincipal.cpp#L351) | [`uPoligono.cpp: 307`](uPoligono.cpp#L307) |
+| **11. Rot. Homogênea (Homog)** | Gira no próprio centro | [`Uprincipal.cpp: 334`](Uprincipal.cpp#L334) | [`uPoligono.cpp: 265`](uPoligono.cpp#L265) |
+| **12. Clipping** | Corta polígono na caixa | [`Uprincipal.cpp: 525`](Uprincipal.cpp#L525) | [`uPoligono.cpp: 478`](uPoligono.cpp#L478) |
+| **13. Curva Casteljau** | Bézier recursivo | [`Uprincipal.cpp: 385`](Uprincipal.cpp#L385) | [`uPoligono.cpp: 326`](uPoligono.cpp#L326) |
+| **14. Curva Hermite** | Cúbica com tangentes | [`Uprincipal.cpp: 412`](Uprincipal.cpp#L412) | [`uPoligono.cpp: 351`](uPoligono.cpp#L351) |
+| **15. Curva Bézier** | Polinômios de Bernstein | [`Uprincipal.cpp: 442`](Uprincipal.cpp#L442) | [`uPoligono.cpp: 378`](uPoligono.cpp#L378) |
+| **16. B-Spline** | B-Spline Uniforme matricial | [`Uprincipal.cpp: 472`](Uprincipal.cpp#L472) | [`uPoligono.cpp: 396`](uPoligono.cpp#L396) |
+| **17. Forward Diff.** | Diferenças progressivas | [`Uprincipal.cpp: 502`](Uprincipal.cpp#L502) | [`uPoligono.cpp: 427`](uPoligono.cpp#L427) |
+| **18. 3D** | Cubo, Pirâmide, Rotações e Projeções | [`Uprincipal.cpp: 614`](Uprincipal.cpp#L614) | [`uObjeto3D.cpp: 59`](uObjeto3D.cpp#L59) / [`uPonto3D.cpp: 28`](uPonto3D.cpp#L28) |
+
+
 
