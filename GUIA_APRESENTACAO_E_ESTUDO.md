@@ -269,26 +269,29 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 Se o professor apontar para a tela ou seguir a planilha de avaliação, as linhas abaixo estão na **ordem exata de avaliação (1 a 18)**:
 
-| Botão na Tela | O que ele faz | Onde está o clique (UI) | Onde está o cálculo (Modelo) |
-| :--- | :--- | :--- | :--- |
-| **1. Transformadas** | Mundo para Viewport (Tela) | Desenho contínuo no Canvas | [`Unit1.cpp: 19–27`](Unit1.cpp#L19-L27) |
-| **2. Movimentação** | Pan e Zoom (Câmera 2D) | [`Uprincipal.cpp: 196`](Uprincipal.cpp#L196) | [`Uprincipal.cpp: 163`](Uprincipal.cpp#L163) |
-| **3. Mundo** | Tela para Mundo (Mouse) | [`Uprincipal.cpp: 82`](Uprincipal.cpp#L82) / [`138`](Uprincipal.cpp#L138) | [`Uprincipal.cpp: 27–33`](Uprincipal.cpp#L27-L33) |
-| **4. Reta DDA** | Traçado DDA (RadioGroup = 1) | [`Uprincipal.cpp: 167`](Uprincipal.cpp#L167) | [`uPoligono.cpp: 19`](uPoligono.cpp#L19) |
-| **5. Bresenham** | Traçado Bresenham (RadioGroup = 2) | [`Uprincipal.cpp: 167`](Uprincipal.cpp#L167) | [`uPoligono.cpp: 60`](uPoligono.cpp#L60) |
-| **6. Circunferência** | Traça círculo por raio | [`Uprincipal.cpp: 270`](Uprincipal.cpp#L270) | [`uPoligono.cpp: 124`](uPoligono.cpp#L124) |
-| **7. Translação** | Move objeto em X e Y | [`Uprincipal.cpp: 250`](Uprincipal.cpp#L250) | [`uPoligono.cpp: 231`](uPoligono.cpp#L231) |
-| **8. Rotação Simples (rot)** | Gira em torno de (0,0) | [`Uprincipal.cpp: 316`](Uprincipal.cpp#L316) | [`uPoligono.cpp: 243`](uPoligono.cpp#L243) |
-| **9. Escalonamento (esc)** | Aumenta/diminui tamanho | [`Uprincipal.cpp: 297`](Uprincipal.cpp#L297) | [`uPoligono.cpp: 237`](uPoligono.cpp#L237) |
-| **10. Reflexão (reflexao)** | Espelha nos eixos X, Y e XY | [`Uprincipal.cpp: 351`](Uprincipal.cpp#L351) | [`uPoligono.cpp: 307`](uPoligono.cpp#L307) |
-| **11. Rot. Homogênea (Homog)** | Gira no próprio centro | [`Uprincipal.cpp: 334`](Uprincipal.cpp#L334) | [`uPoligono.cpp: 265`](uPoligono.cpp#L265) |
-| **12. Clipping** | Corta polígono na caixa | [`Uprincipal.cpp: 525`](Uprincipal.cpp#L525) | [`uPoligono.cpp: 478`](uPoligono.cpp#L478) |
-| **13. Curva Casteljau** | Bézier recursivo | [`Uprincipal.cpp: 385`](Uprincipal.cpp#L385) | [`uPoligono.cpp: 326`](uPoligono.cpp#L326) |
-| **14. Curva Hermite** | Cúbica com tangentes | [`Uprincipal.cpp: 412`](Uprincipal.cpp#L412) | [`uPoligono.cpp: 351`](uPoligono.cpp#L351) |
-| **15. Curva Bézier** | Polinômios de Bernstein | [`Uprincipal.cpp: 442`](Uprincipal.cpp#L442) | [`uPoligono.cpp: 378`](uPoligono.cpp#L378) |
-| **16. B-Spline** | B-Spline Uniforme matricial | [`Uprincipal.cpp: 472`](Uprincipal.cpp#L472) | [`uPoligono.cpp: 396`](uPoligono.cpp#L396) |
-| **17. Forward Diff.** | Diferenças progressivas | [`Uprincipal.cpp: 502`](Uprincipal.cpp#L502) | [`uPoligono.cpp: 427`](uPoligono.cpp#L427) |
-| **18. 3D** | Cubo, Pirâmide, Rotações e Projeções | [`Uprincipal.cpp: 614`](Uprincipal.cpp#L614) | [`uObjeto3D.cpp: 59`](uObjeto3D.cpp#L59) / [`uPonto3D.cpp: 28`](uPonto3D.cpp#L28) |
+| Item na Planilha | Como Funciona (Resumo Direto) | Onde está no Código |
+| :--- | :--- | :--- |
+| **1. Transformadas** | Mapeia números reais para pixels, invertendo o eixo vertical com `(1 - ...)` | [`Unit1.cpp: 19–27`](Unit1.cpp#L19-L27) |
+| **2. Movimentação** | Pan desloca limites do mundo (+/- 10); Zoom encolhe/amplia a janela da câmera | [`Uprincipal.cpp: 163`](Uprincipal.cpp#L163) / [`196`](Uprincipal.cpp#L196) |
+| **3. Mundo** | Inversa da Window-to-Viewport; converte o clique de pixel do mouse em ponto cartesiano | [`Uprincipal.cpp: 27–33`](Uprincipal.cpp#L27-L33) |
+| **4. Reta DDA** | Lento; calcula incrementos com ponto flutuante (`float`), divisão e arredonda com `floor` | [`uPoligono.cpp: 19–54`](uPoligono.cpp#L19-L54) |
+| **5. Bresenham** | Mais rápido; opera só com inteiros (`int`) e erro acumulado (`2*dy - dx`), sem divisão | [`uPoligono.cpp: 60–121`](uPoligono.cpp#L60-L121) |
+| **6. Circunferência** | Ponto Médio nos 8 octantes; calcula só 45° e plota 8 pontos simétricos espelhados | [`uPoligono.cpp: 124–160`](uPoligono.cpp#L124-L160) |
+| **7. Translação** | Deslocamento linear somando dx e dy em cada vértice do polígono | [`uPoligono.cpp: 231–235`](uPoligono.cpp#L231-L235) |
+| **8. Rotação Simples (rot)** | Rotação trigonométrica pura na origem; faz o objeto orbitar e sair do lugar | [`uPoligono.cpp: 243–247`](uPoligono.cpp#L243-L247) |
+| **9. Escalonamento (esc)** | Multiplica coordenadas por Sx e Sy; altera a geometria real do objeto no mundo | [`uPoligono.cpp: 237–241`](uPoligono.cpp#L237-L241) |
+| **10. Reflexão (reflexao)** | Inverte sinais: Eixo X (`y = -y`), Eixo Y (`x = -x`), Eixo XY (`ambos os eixos`) | [`uPoligono.cpp: 307–324`](uPoligono.cpp#L307-L324) |
+| **11. Rot. Homogênea (Homog)** | Matrizes 3x3: translada o centro para origem, gira e translada de volta (T * R * T_inversa) | [`uPoligono.cpp: 265–305`](uPoligono.cpp#L265-L305) |
+| **12. Clipping** | Cohen-Sutherland com 4 bits: aceitação (`OU=0`), rejeição (`E!=0`) e corte analítico | [`uPoligono.cpp: 478–610`](uPoligono.cpp#L478-L610) |
+| **13. Curva Casteljau** | Subdivisão geométrica recursiva por pontos médios até segmentos ficarem <= 1 pixel | [`uPoligono.cpp: 326–349`](uPoligono.cpp#L326-L349) |
+| **14. Curva Hermite** | Polinômio cúbico definido por 2 pontos nas pontas e 2 vetores tangentes de direção | [`uPoligono.cpp: 351–376`](uPoligono.cpp#L351-L376) |
+| **15. Curva Bézier** | 4 pontos: passa só no início e fim; os 2 do meio agem como "ímãs" com Bernstein | [`uPoligono.cpp: 378–394`](uPoligono.cpp#L378-L394) |
+| **16. B-Spline** | Matriz base 1/6; curvas suaves com controle local (mexer num ponto não deforma tudo) | [`uPoligono.cpp: 396–425`](uPoligono.cpp#L396-L425) |
+| **17. Forward Diff.** | Otimização numérica; substitui multiplicações cúbicas por somas discretas no laço | [`uPoligono.cpp: 427–469`](uPoligono.cpp#L427-L469) |
+| **18. 3D** | Modelo de arame; deduplica arestas e projeta em Perspectiva (divide por d - z), Orto ou Cavaleira | [`uObjeto3D.cpp: 59–521`](uObjeto3D.cpp#L59-L521) |
+
+
+
 
 
 

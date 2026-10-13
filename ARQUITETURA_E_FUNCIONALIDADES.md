@@ -8,52 +8,52 @@ Este documento descreve a arquitetura, conceitos matemáticos, algoritmos implem
 
 | Funcionalidade / Etapa | Arquivo Principal | Linhas no Código | Descrição Resumida |
 | :--- | :--- | :--- | :--- |
-| **Mundo $\rightarrow$ Viewport (Tela)** | [`Unit1.cpp`](Unit1.cpp#L19-L27) | 19–27 | Conversão de coordenadas reais de mundo para pixels inteiros |
-| **Viewport (Tela) $\rightarrow$ Mundo** | [`Uprincipal.cpp`](Uprincipal.cpp#L27-L33) | 27–33 | Inversão dos cliques de mouse em pixels para coordenadas do mundo |
+| **Mundo -> Viewport (Tela)** | [`Unit1.cpp`](Unit1.cpp#L19-L27) | 19–27 | Conversão de coordenadas reais de mundo para pixels inteiros |
+| **Viewport (Tela) -> Mundo** | [`Uprincipal.cpp`](Uprincipal.cpp#L27-L33) | 27–33 | Inversão dos cliques de mouse em pixels para coordenadas do mundo |
 | **Rasterização: Reta Padrão Canvas** | [`uPoligono.cpp`](uPoligono.cpp#L182-L193) | 182–193 | Uso nativo de `MoveTo` e `LineTo` do VCL Canvas |
-| **Rasterização: Algoritmo DDA** | [`uPoligono.cpp`](uPoligono.cpp#L19-L54) | 19–54 | Digital Differential Analyzer com incrementos $\Delta x, \Delta y$ fracionários |
+| **Rasterização: Algoritmo DDA** | [`uPoligono.cpp`](uPoligono.cpp#L19-L54) | 19–54 | Digital Differential Analyzer com incrementos dx, dy fracionários |
 | **Rasterização: Reta de Bresenham** | [`uPoligono.cpp`](uPoligono.cpp#L60-L121) | 60–121 | Algoritmo de aritmética inteira com variável de erro acumulado |
 | **Rasterização: Círculo Ponto Médio** | [`uPoligono.cpp`](uPoligono.cpp#L124-L160) | 124–160 | Traçado por simetria nos 8 octantes |
-| **Translação 2D** | [`uPoligono.cpp`](uPoligono.cpp#L231-L235) / [`Uprincipal.cpp`](Uprincipal.cpp#L250-L268) | 231–235 / 250–268 | Deslocamento por $\Delta x$ e $\Delta y$ |
-| **Escalonamento 2D** | [`uPoligono.cpp`](uPoligono.cpp#L237-L241) / [`Uprincipal.cpp`](Uprincipal.cpp#L297-L314) | 237–241 / 297–314 | Multiplicação por $S_x$ e $S_y$ |
-| **Rotação 2D Simples** | [`uPoligono.cpp`](uPoligono.cpp#L243-L247) / [`Uprincipal.cpp`](Uprincipal.cpp#L316-L332) | 243–247 / 316–332 | Rotação trigonométrica em torno da origem $(0, 0)$ |
-| **Rotação 2D Homogênea** | [`uPoligono.cpp`](uPoligono.cpp#L265-L305) / [`Uprincipal.cpp`](Uprincipal.cpp#L334-L349) | 265–305 / 334–349 | Matrizes $3 \times 3$: $T(-P_m) \cdot R(\theta) \cdot T(P_m)$ |
+| **Translação 2D** | [`uPoligono.cpp`](uPoligono.cpp#L231-L235) / [`Uprincipal.cpp`](Uprincipal.cpp#L250-L268) | 231–235 / 250–268 | Deslocamento por dx e dy |
+| **Escalonamento 2D** | [`uPoligono.cpp`](uPoligono.cpp#L237-L241) / [`Uprincipal.cpp`](Uprincipal.cpp#L297-L314) | 237–241 / 297–314 | Multiplicação por Sx e Sy |
+| **Rotação 2D Simples** | [`uPoligono.cpp`](uPoligono.cpp#L243-L247) / [`Uprincipal.cpp`](Uprincipal.cpp#L316-L332) | 243–247 / 316–332 | Rotação trigonométrica em torno da origem (0, 0) |
+| **Rotação 2D Homogênea** | [`uPoligono.cpp`](uPoligono.cpp#L265-L305) / [`Uprincipal.cpp`](Uprincipal.cpp#L334-L349) | 265–305 / 334–349 | Matrizes 3x3: T(-Pm) * R(theta) * T(Pm) |
 | **Reflexões 2D (X, Y, XY)** | [`uPoligono.cpp`](uPoligono.cpp#L307-L324) / [`Uprincipal.cpp`](Uprincipal.cpp#L351-L383) | 307–324 / 351–383 | Inversão de sinais nos eixos |
 | **Clipping: Outcode 4 bits** | [`Unit1.cpp`](Unit1.cpp#L62-L75) | 62–75 | Classificação de região Cohen-Sutherland (Left, Right, Bottom, Top) |
 | **Clipping: Cohen-Sutherland** | [`uPoligono.cpp`](uPoligono.cpp#L478-L610) / [`Uprincipal.cpp`](Uprincipal.cpp#L525-L585) | 478–610 / 525–585 | Recorte de polígonos contra janela com cálculo de interseções |
 | **Câmera 2D: Pan e Zoom** | [`Uprincipal.cpp`](Uprincipal.cpp#L196-L239) | 196–239 | Movimentação da janela de mundo e ampliação/redução |
 | **Coordenadas Mouse (Canvas)** | [`Uprincipal.cpp`](Uprincipal.cpp#L82-L90) | 82–90 | Rastreamento dinâmico no evento `Image1MouseMove` |
 | **Desenho Interativo com Mouse** | [`Uprincipal.cpp`](Uprincipal.cpp#L138-L161) | 138–161 | Botão esquerdo: vértice / Botão direito: fecha polígono |
-| **Curva: de Casteljau** | [`uPoligono.cpp`](uPoligono.cpp#L326-L349) / [`Uprincipal.cpp`](Uprincipal.cpp#L385-L410) | 326–349 / 385–410 | Subdivisão recursiva de curvas com critério de parada $\le 1$ |
-| **Curva: Hermite** | [`uPoligono.cpp`](uPoligono.cpp#L351-L376) / [`Uprincipal.cpp`](Uprincipal.cpp#L412-L440) | 351–376 / 412–440 | Polinômio cúbico com vetores tangentes $R_1$ e $R_4$ |
+| **Curva: de Casteljau** | [`uPoligono.cpp`](uPoligono.cpp#L326-L349) / [`Uprincipal.cpp`](Uprincipal.cpp#L385-L410) | 326–349 / 385–410 | Subdivisão recursiva de curvas com critério de parada <= 1 |
+| **Curva: Hermite** | [`uPoligono.cpp`](uPoligono.cpp#L351-L376) / [`Uprincipal.cpp`](Uprincipal.cpp#L412-L440) | 351–376 / 412–440 | Polinômio cúbico com vetores tangentes R1 e R4 |
 | **Curva: Bézier (Bernstein)** | [`uPoligono.cpp`](uPoligono.cpp#L378-L394) / [`Uprincipal.cpp`](Uprincipal.cpp#L442-L470) | 378–394 / 442–470 | Avaliação direta dos polinômios de Bernstein |
-| **Curva: B-Spline Uniforme** | [`uPoligono.cpp`](uPoligono.cpp#L396-L425) / [`Uprincipal.cpp`](Uprincipal.cpp#L472-L500) | 396–425 / 472–500 | Multiplicação matricial $\frac{1}{6} M \cdot G$ |
+| **Curva: B-Spline Uniforme** | [`uPoligono.cpp`](uPoligono.cpp#L396-L425) / [`Uprincipal.cpp`](Uprincipal.cpp#L472-L500) | 396–425 / 472–500 | Multiplicação matricial 1/6 * M * G |
 | **Curva: Forward Differences** | [`uPoligono.cpp`](uPoligono.cpp#L427-L469) / [`Uprincipal.cpp`](Uprincipal.cpp#L502-L523) | 427–469 / 502–523 | Método incremental por derivadas discretas |
-| **Transformações 3D (Ponto3D)** | [`uPonto3D.cpp`](uPonto3D.cpp#L28-L98) | 28–98 | Translação, escala e rotações nos eixos $X, Y, Z$ |
+| **Transformações 3D (Ponto3D)** | [`uPonto3D.cpp`](uPonto3D.cpp#L28-L98) | 28–98 | Translação, escala e rotações nos eixos X, Y, Z |
 | **Rotação 3D Eixo Arbitrário** | [`uPonto3D.cpp`](uPonto3D.cpp#L101-L144) | 101–144 | Algoritmo clássico dos 7 passos de alinhamento com os eixos |
-| **Projeções 3D $\rightarrow$ 2D** | [`uPonto3D.cpp`](uPonto3D.cpp#L146-L168) | 146–168 | Ortográfica (146), Perspectiva (152) e Cavaleira (162) |
+| **Projeções 3D -> 2D** | [`uPonto3D.cpp`](uPonto3D.cpp#L146-L168) | 146–168 | Ortográfica (146), Perspectiva (152) e Cavaleira (162) |
 | **Modelo de Arame (Objeto3D)** | [`uObjeto3D.cpp`](uObjeto3D.cpp#L59-L149) | 59–149 | Gerenciamento de segmentos 3D, centro e transformações |
 | **Geração Primitivas 3D (Cubo/Pirâmide)**| [`uObjeto3D.cpp`](uObjeto3D.cpp#L151-L214) | 151–214 | Construção geométrica de cubos e pirâmides em wireframe |
 | **Carregamento de Arquivo 3D (TXT/OBJ)** | [`uObjeto3D.cpp`](uObjeto3D.cpp#L216-L404) | 216–404 | Parser de arquivos texto, deduplicação de arestas e reconstrução |
 | **Renderização 3D na Viewport** | [`uObjeto3D.cpp`](uObjeto3D.cpp#L428-L521) | 428–521 | Projeção dos vértices, mapeamento de tela e rasterização |
-| **Controles Interativos 3D na UI** | [`Uprincipal.cpp`](Uprincipal.cpp#L614-L848) | 614–848 | Botões de rotações $Rx, Ry, Rz$, escala, translação $Z$ e projeção |
+| **Controles Interativos 3D na UI** | [`Uprincipal.cpp`](Uprincipal.cpp#L614-L848) | 614–848 | Botões de rotações Rx, Ry, Rz, escala, translação Z e projeção |
 | **Display File da Cena** | [`uDisplay.cpp`](uDisplay.cpp#L15-L60) | 15–60 | Lista de polígonos e objetos 3D com varredura para redesenho |
 
 ---
 
 ## 1. Mapeamento de Coordenadas (Window-to-Viewport Transformation)
 
-Converte entre o sistema cartesiano do **Mundo** (com origem $(0,0)$ central e números reais) e o sistema da **Viewport / Tela** (com origem no canto superior esquerdo e números inteiros em pixels).
+Converte entre o sistema cartesiano do **Mundo** (com origem (0, 0) central e números reais) e o sistema da **Viewport / Tela** (com origem no canto superior esquerdo e números inteiros em pixels).
 
-### A. Mundo $\rightarrow$ Viewport (Tela)
+### A. Mundo -> Viewport (Tela)
 * **Arquivo**: [`Unit1.cpp`](Unit1.cpp#L19-L27) (linhas 19–27)
 * **Funções**:
   * `int Ponto::xW2Vp(Janela mundo, Janela Vp)` (linhas 19–22):
-    $$X_{vp} = \frac{X_w - X_{wMin}}{X_{wMax} - X_{wMin}} \cdot (X_{vpMax} - X_{vpMin})$$
+    `Xvp = ((Xw - XwMin) / (XwMax - XwMin)) * (XvpMax - XvpMin)`
   * `int Ponto::yW2Vp(Janela mundo, Janela Vp)` (linhas 24–27):
-    $$Y_{vp} = \left(1 - \frac{Y_w - Y_{wMin}}{Y_{wMax} - Y_{wMin}}\right) \cdot (Y_{vpMax} - Y_{vpMin})$$
+    `Yvp = (1 - ((Yw - YwMin) / (YwMax - YwMin))) * (YvpMax - YvpMin)`
 
-### B. Viewport (Tela) $\rightarrow$ Mundo
+### B. Viewport (Tela) -> Mundo
 * **Arquivo**: [`Uprincipal.cpp`](Uprincipal.cpp#L27-L33) (linhas 27–33)
 * **Funções**:
   * `double xVp2Mundo(int x, Janela mundo, Janela vp)` (linhas 27–29)
@@ -66,7 +66,7 @@ Converte entre o sistema cartesiano do **Mundo** (com origem $(0,0)$ central e n
 ### A. Algoritmo DDA (Digital Differential Analyzer)
 * **Arquivo**: [`uPoligono.cpp`](uPoligono.cpp#L19-L54) (linhas 19–54)
 * **Função**: `void Poligono::desenharDDA(Ponto p1, Ponto p2, Janela mundo, Janela vp, TCanvas *canvas)`
-* **Conceito**: Calcula incrementos fracionários $\Delta x$ e $\Delta y$ baseados no maior lado (`length = max(|dx|, |dy|)`) e plota pixels arredondando as coordenadas (`FLOOR(x)`, `FLOOR(y)`).
+* **Conceito**: Calcula incrementos fracionários dx e dy baseados no maior lado (`length = max(|dx|, |dy|)`) e plota pixels arredondando as coordenadas (`FLOOR(x)`, `FLOOR(y)`).
 
 ### B. Algoritmo de Bresenham para Retas
 * **Arquivo**: [`uPoligono.cpp`](uPoligono.cpp#L60-L121) (linhas 60–121)
@@ -76,7 +76,7 @@ Converte entre o sistema cartesiano do **Mundo** (com origem $(0,0)$ central e n
 ### C. Algoritmo de Bresenham / Ponto Médio para Circunferências
 * **Arquivo**: [`uPoligono.cpp`](uPoligono.cpp#L124-L160) (linhas 124–160)
 * **Funções**:
-  * `void Poligono::DesenhaCircunferencia(int xc, int yc, int r)` (linhas 124–146): Cálculo incremental do primeiro octante com variável de decisão $p = 1 - r$.
+  * `void Poligono::DesenhaCircunferencia(int xc, int yc, int r)` (linhas 124–146): Cálculo incremental do primeiro octante com variável de decisão p = 1 - r.
   * `void Poligono::DesenhaPontoCircunferencia(int xc, int yc, int x, int y)` (linhas 150–160): Simetria de 8 octantes gerando os pontos simétricos correspondentes.
 * **Evento na UI**: [`Uprincipal.cpp`](Uprincipal.cpp#L270-L295) (linhas 270–295, `CirculoClick`).
 
@@ -111,10 +111,10 @@ Todas as transformações operam sobre os vértices do polígono selecionado no 
 Gerenciamento dinâmico dos limites da janela de mundo:
 
 * **Atualização do Mundo**: [`Uprincipal.cpp`](Uprincipal.cpp#L163-L184) (linhas 163–184)
-* **Pan Cima**: [`Uprincipal.cpp`](Uprincipal.cpp#L196-L200) (linhas 196–200, `btCimaClick`): $y_{min} += 10, y_{max} += 10$
-* **Pan Baixo**: [`Uprincipal.cpp`](Uprincipal.cpp#L202-L207) (linhas 202–207, `btBaixoClick`): $y_{min} -= 10, y_{max} -= 10$
-* **Pan Esquerda**: [`Uprincipal.cpp`](Uprincipal.cpp#L209-L214) (linhas 209–214, `btEsquerdaClick`): $x_{min} -= 10, x_{max} -= 10$
-* **Pan Direita**: [`Uprincipal.cpp`](Uprincipal.cpp#L216-L221) (linhas 216–221, `btDireitaClick`): $x_{min} += 10, x_{max} += 10$
+* **Pan Cima**: [`Uprincipal.cpp`](Uprincipal.cpp#L196-L200) (linhas 196–200, `btCimaClick`): ymin += 10, ymax += 10
+* **Pan Baixo**: [`Uprincipal.cpp`](Uprincipal.cpp#L202-L207) (linhas 202–207, `btBaixoClick`): ymin -= 10, ymax -= 10
+* **Pan Esquerda**: [`Uprincipal.cpp`](Uprincipal.cpp#L209-L214) (linhas 209–214, `btEsquerdaClick`): xmin -= 10, xmax -= 10
+* **Pan Direita**: [`Uprincipal.cpp`](Uprincipal.cpp#L216-L221) (linhas 216–221, `btDireitaClick`): xmin += 10, xmax += 10
 * **Zoom Out (-)**: [`Uprincipal.cpp`](Uprincipal.cpp#L223-L230) (linhas 223–230, `btZoomOutClick`): expande os limites do mundo
 * **Zoom In (+)**: [`Uprincipal.cpp`](Uprincipal.cpp#L232-L239) (linhas 232–239, `btZoomInClick`): contrai os limites do mundo
 
@@ -122,15 +122,15 @@ Gerenciamento dinâmico dos limites da janela de mundo:
 
 ## 5. Recorte de Linhas 2D (Algoritmo de Cohen-Sutherland)
 
-Recorte de arestas contra a janela retangular de clipping em coordenadas de mundo ( $[-100, -100]$ a $[100, 100]$ ):
+Recorte de arestas contra a janela retangular de clipping em coordenadas de mundo ( [-100, -100] a [100, 100] ):
 
 ### A. Cálculo do Código de Região (Outcode de 4 bits)
 * **Arquivo**: [`Unit1.cpp`](Unit1.cpp#L62-L75) (linhas 62–75)
 * **Função**: `int Ponto::cohen(Janela clipping)`
-  * Bit 0 (`1`): À esquerda ($x < x_{min}$)
-  * Bit 1 (`2`): À direita ($x > x_{max}$)
-  * Bit 2 (`4`): Abaixo ($y < y_{min}$)
-  * Bit 3 (`8`): Acima ($y > y_{max}$)
+  * Bit 0 (`1`): À esquerda (x < xmin)
+  * Bit 1 (`2`): À direita (x > xmax)
+  * Bit 2 (`4`): Abaixo (y < ymin)
+  * Bit 3 (`8`): Acima (y > ymax)
 
 ### B. Algoritmo de Recorte e Interseção
 * **Arquivo**: [`uPoligono.cpp`](uPoligono.cpp#L478-L610) (linhas 478–610)
@@ -138,7 +138,7 @@ Recorte de arestas contra a janela retangular de clipping em coordenadas de mund
 * **Etapas**:
   * `(c1 | c2) == 0`: Aceitação trivial (linhas 543–547).
   * `(c1 & c2) != 0`: Rejeição trivial.
-  * Interseção com as 4 bordas: linhas 497–533 e 553–606 utilizando a inclinação da reta $m = \frac{y_2 - y_1}{x_2 - x_1}$.
+  * Interseção com as 4 bordas: linhas 497–533 e 553–606 utilizando a inclinação da reta m = (y2 - y1) / (x2 - x1).
 
 ### C. Ação na Interface
 * **Arquivo**: [`Uprincipal.cpp`](Uprincipal.cpp#L525-L585) (linhas 525–585)
@@ -155,7 +155,7 @@ Gera novos polígonos aproximando curvas a partir de pontos de controle:
 | **de Casteljau** (Bézier recursivo) | Linhas 326–349 (`casteljau` e `casteljauRecursivo`) | Linhas 385–410 (`btCurvaCasteljauClick`) |
 | **Hermite** (Cúbica com tangentes) | Linhas 351–376 (`hermite`) | Linhas 412–440 (`btHermiteClick`) |
 | **Bézier Cúbica** (Polinômios Bernstein) | Linhas 378–394 (`bezier`) | Linhas 442–470 (`btBezierClick`) |
-| **B-Spline Cúbica Uniforme** | Linhas 396–425 (`bSpline`, matriz base $M$) | Linhas 472–500 (`btBSsplineClick`) |
+| **B-Spline Cúbica Uniforme** | Linhas 396–425 (`bSpline`, matriz base M) | Linhas 472–500 (`btBSsplineClick`) |
 | **Diferenças Progressivas (Forward Diff)** | Linhas 427–469 (`fwdDifferences`) | Linhas 502–523 (`btSplineDifferenceClick`) |
 
 ---
@@ -169,17 +169,17 @@ Gera novos polígonos aproximando curvas a partir de pontos de controle:
 * **Rotação Eixo Y**: Linhas 64–79 (`rotacaoY(graus)`)
 * **Rotação Eixo Z**: Linhas 81–96 (`rotacaoZ(graus)`)
 * **Rotação em Torno de Eixo Arbitrário (7 Passos)**: Linhas 101–144 (`rotacaoEixoArbitrario`)
-  * $T(-P_1) \rightarrow R_x \rightarrow R_z \rightarrow R_y(\theta) \rightarrow R_z^{-1} \rightarrow R_x^{-1} \rightarrow T(+P_1)$
+  * T(-P1) -> Rx -> Rz -> Ry(theta) -> Rz_inv -> Rx_inv -> T(+P1)
 * **Projeção Ortográfica**: Linhas 146–150 (`projetaOrtografica()`)
 * **Projeção Perspectiva**: Linhas 152–160 (`projetaPerspectiva(d)`)
-  $$X_{2D} = \frac{x \cdot d}{d - z}, \quad Y_{2D} = \frac{y \cdot d}{d - z}$$
+  `X_2D = (x * d) / (d - z),   Y_2D = (y * d) / (d - z)`
 * **Projeção Cavaleira**: Linhas 162–168 (`projetaCavaleira(angGraus, fator)`)
 
 ### B. Classe `Objeto3D` ([`uObjeto3D.cpp`](uObjeto3D.cpp) / [`uObjeto3D.h`](uObjeto3D.h))
 * **Transformações de Objeto**:
   * Translação: Linhas 72–76
   * Escalonamento no centro: Linhas 86–91
-  * Rotações nos eixos $X, Y, Z$: Linhas 94–113
+  * Rotações nos eixos X, Y, Z: Linhas 94–113
   * Rotação no baricentro: Linhas 115–123 (`rotacaoNoCentro`)
   * Rotação em eixo arbitrário: Linhas 125–130
   * Cálculo do centroide/baricentro: Linhas 132–149 (`centro()`)
@@ -189,7 +189,7 @@ Gera novos polígonos aproximando curvas a partir de pontos de controle:
 ### C. Leitura de Arquivo Texto e Formato da Pirâmide (`piramide.txt`)
 O método `Objeto3D::carregarDeArquivo(caminhoArquivo)` ([`uObjeto3D.cpp:L216-404`](uObjeto3D.cpp#L216-L404)) suporta múltiplos formatos e processa nativamente o **formato da aula prática (anotado no quadro)**:
 * **Formato de Faces Triangulares (Quadro da Aula 6)**:
-  Contém 12 linhas com coordenadas inteiras $x, y, z$, correspondentes às 4 faces triangulares vistas de cima que convergem no ápice $(0, 0, 50)$:
+  Contém 12 linhas com coordenadas inteiras x, y, z, correspondentes às 4 faces triangulares vistas de cima que convergem no ápice (0, 0, 50):
   ```text
   -50 -50 0    # Face 1 (Vértices 1, 2, 5)
   -50 50 0
@@ -205,9 +205,9 @@ O método `Objeto3D::carregarDeArquivo(caminhoArquivo)` ([`uObjeto3D.cpp:L216-40
   0 0 50
   ```
 * **Processamento e Deduplicação de Arestas**:
-  O método lê as 4 faces triangulares, extrai os segmentos $(P_0, P_1)$, $(P_1, P_2)$ e $(P_2, P_0)$ e descarta arestas compartilhadas duplicadas (linhas 365–385), gerando com exatidão as **8 arestas do modelo de arame da pirâmide**:
-  * 4 arestas da base quadrada: $[(-50,-50) \to (-50,50)]$, $[(-50,50) \to (50,50)]$, $[(50,50) \to (50,-50)]$, $[(50,-50) \to (-50,-50)]$.
-  * 4 arestas laterais subindo ao ápice: dos 4 cantos da base até $(0, 0, 50)$.
+  O método lê as 4 faces triangulares, extrai os segmentos (P0, P1), (P_1, P_2) e (P_2, P_0) e descarta arestas compartilhadas duplicadas (linhas 365–385), gerando com exatidão as **8 arestas do modelo de arame da pirâmide**:
+  * 4 arestas da base quadrada: [(-50,-50) -> (-50,50)], [(-50,50) -> (50,50)], [(50,50) -> (50,-50)], [(50,-50) -> (-50,-50)].
+  * 4 arestas laterais subindo ao ápice: dos 4 cantos da base até (0, 0, 50).
 * **Outros formatos suportados**:
   * Lista de segmentos diretos: linhas com `x1 y1 z1 x2 y2 z2`.
   * Formato com blocos `VERTICES N` e `ARESTAS M`.
@@ -237,9 +237,9 @@ O método `Objeto3D::carregarDeArquivo(caminhoArquivo)` ([`uObjeto3D.cpp:L216-40
 * **Carregar `piramide.txt`**: Linhas 638–680 (`btCarregarPiramideTxtClick`)
 * **Limpar 3D**: Linhas 682–687 (`btLimpar3DClick`)
 * **Alterar Projeção (Ortográfica / Perspectiva / Cavaleira)**: Linhas 689–693 (`rgProjecao3DClick`)
-* **Rotações Interativas ($Rx \pm 15^\circ$)**: Linhas 695–715 (`btRotXMaisClick`, `btRotXMenosClick`)
-* **Rotações Interativas ($Ry \pm 15^\circ$)**: Linhas 717–737 (`btRotYMaisClick`, `btRotYMenosClick`)
-* **Rotações Interativas ($Rz \pm 15^\circ$)**: Linhas 739–759 (`btRotZMaisClick`, `btRotZMenosClick`)
+* **Rotações Interativas (Rx +/- 15 graus)**: Linhas 695–715 (`btRotXMaisClick`, `btRotXMenosClick`)
+* **Rotações Interativas (Ry +/- 15 graus)**: Linhas 717–737 (`btRotYMaisClick`, `btRotYMenosClick`)
+* **Rotações Interativas (Rz +/- 15 graus)**: Linhas 739–759 (`btRotZMaisClick`, `btRotZMenosClick`)
 * **Escala 3D (+ / -)**: Linhas 762–783 (`btEscalaMais3DClick`, `btEscalaMenos3DClick`)
 * **Translação em Z (+ / -)**: Linhas 785–806 (`btTransZMaisClick`, `btTransZMenosClick`)
 * **Reset 3D**: Linhas 808–816 (`btReset3DClick`)
