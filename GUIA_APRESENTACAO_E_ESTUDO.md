@@ -1,7 +1,7 @@
 # Guia de Apresentação e Estudo - Computação Gráfica
 
 Este documento foi criado especificamente para a **apresentação do trabalho ao professor**. Ele contém:
-1. **As 4 Frases de Ouro para Decorar Hoje à Noite** (respostas rápidas e certeiras).
+1. **As 4 Frases de Ouro para Decorar** (respostas rápidas e certeiras).
 2. **Roteiro de Demonstração na Tela** (o que clicar e o que falar).
 3. **As 7 Perguntas Clássicas de Arguição** com as respostas prontas e os locais exatos no código.
 4. **Colinha Rápida** (botão da interface -> linha do código).
