@@ -487,7 +487,7 @@ object Form1: TForm1
         Width = 74
         Height = 25
         Caption = 'Limpar 3D'
-        TabOrder = 3
+        TabOrder = 16
         OnClick = btLimpar3DClick
       end
       object rgProjecao3D: TRadioGroup

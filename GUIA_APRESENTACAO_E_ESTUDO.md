@@ -1,10 +1,11 @@
 # Guia de Apresentação e Estudo - Computação Gráfica
 
 Este documento foi criado especificamente para a **apresentação do trabalho ao professor**. Ele contém:
-1. **As 4 Frases de Ouro para Decorar** (respostas rápidas e certeiras).
-2. **Roteiro de Demonstração na Tela** (o que clicar e o que falar).
-3. **As 7 Perguntas Clássicas de Arguição** com as respostas prontas e os locais exatos no código.
-4. **Colinha Rápida** (botão da interface -> linha do código).
+1. **Curvas Paramétricas e Splines** (conceito, diferença entre elas e perguntas clássicas).
+2. **As 4 Frases de Ouro para Decorar** (respostas rápidas e certeiras).
+3. **Roteiro de Demonstração na Tela** (o que clicar e o que falar).
+4. **As 11 Perguntas Clássicas de Arguição** com as respostas prontas e os locais exatos no código.
+5. **Colinha de Emergência** (tabela ordenada de 1 a 18 conforme a planilha do professor).
 
 > **Dica de leitura:** Todas as explicações usam linguagem direta e falada (sem fórmulas LaTeX brutas), para você ler com fluidez e responder com naturalidade.
 
@@ -13,11 +14,11 @@ Este documento foi criado especificamente para a **apresentação do trabalho ao
 ## 🎨 Curvas Paramétricas e Splines
 
 ### 1. Curva de Bézier (Polinômios de Bernstein)
-* **Arquivos e Linhas:** `uPoligono.cpp` (378–394) / `Uprincipal.cpp` (442–470)
+* **Arquivos e Linhas:** `uPoligono.cpp` (381–397) / `Uprincipal.cpp` (442–470)
 * **O que é:** Uma curva suave definida por pontos de controle (geralmente 4 pontos: P1, P2, P3 e P4).
 * **Como funciona:**
   * O primeiro (P1) e o último ponto (P4) são os extremos por onde a curva obrigatoriamente passa (interpolação).
-  * Os pontos intermediários (P2 e P3) atuam como "imãs", puxando a curva na direção deles, mas a curva geralmente não encosta neles (aproximação).
+  * Os pontos intermediários (P2 e P3) atuam como "ímãs", puxando a curva na direção deles, mas a curva geralmente não encosta neles (aproximação).
   * O cálculo varia um parâmetro `t` de 0.0 até 1.0 usando os polinômios de combinação de Bernstein.
 * **Pergunta do Professor:** *"A curva de Bézier passa por todos os pontos de controle?"*
   * **Resposta:** *"Não, professor. Ela interpola (passa por dentro) apenas o ponto inicial e o ponto final. Os pontos intermediários servem apenas para definir a curvatura e a inclinação das tangentes."*
@@ -25,44 +26,44 @@ Este documento foi criado especificamente para a **apresentação do trabalho ao
 ---
 
 ### 2. Algoritmo de Casteljau (Subdivisão Recursiva)
-* **Arquivos e Linhas:** `uPoligono.cpp` (326–349) / `Uprincipal.cpp` (385–410)
+* **Arquivos e Linhas:** `uPoligono.cpp` (327–350) / `Uprincipal.cpp` (385–410)
 * **O que é:** Um método geométrico e recursivo para desenhar a curva de Bézier sem precisar calcular os polinômios diretamente.
 * **Como funciona:**
-  * Ele pega os pontos de controle e calcula pontos médios (interpolações lineares) entre segmentos adjacentes.
-  * Repete essa divisão formando triângulos de pontos até que a distância entre os pontos seja menor que um limite pré-estabelecido (no código, critério de parada <= 1 pixel).
-  * Quando a reta é pequena o suficiente, traça-se o segmento na tela.
-* **Vantagem:** Muito estável numericamente e fácil de subdividir a curva em pedaços menores.
+  * Pega os segmentos formados pelos pontos de controle e calcula os pontos médios sucessivos.
+  * Vai dividindo a curva em partes menores (recursão) até que a distância euclidiana entre os extremos seja menor ou igual a 1 pixel (`distancia <= 1`).
+  * Quando atinge esse critério de parada, plota o ponto na tela.
 * **Pergunta do Professor:** *"Qual é o critério de parada do algoritmo de Casteljau no seu código?"*
-  * **Resposta:** *"O critério de parada é a distância euclidiana entre os pontos ou o comprimento do segmento. Quando o segmento se torna menor ou igual a 1 pixel, a recursão para e o algoritmo desenha uma reta simples, pois o olho humano não distingue mais curvatura nessa escala."*
+  * **Resposta:** *"A distância euclidiana entre os pontos extremos ser menor ou igual a 1 pixel (`distancia <= 1`). Quando o segmento fica menor que um pixel, a recursão para e adicionamos o ponto final à lista de desenho."*
 
 ---
 
 ### 3. Curva de Hermite
-* **Arquivos e Linhas:** `uPoligono.cpp` (351–376) / `Uprincipal.cpp` (412–440)
-* **O que é:** Uma curva cúbica que é definida por **2 pontos de extremidade** (P1 e P2) e **2 vetores tangentes/velocidades** (R1 e R2).
-* **Como funciona:**
-  * Em vez de usar pontos intermediários para puxar a curva (como Bézier), o usuário define a direção e a força de inclinação com que a curva "sai" de P1 e com que ela "chega" em P2.
-  * Se aumentarmos o tamanho do vetor tangente, a curva faz uma volta mais aberta antes de chegar ao destino.
+* **Arquivos e Linhas:** `uPoligono.cpp` (353–378) / `Uprincipal.cpp` (412–440)
+* **O que é:** Uma curva cúbica definida por **2 pontos de posição** (P1 e P4) e **2 vetores tangentes** (R1 e R4).
 * **Diferença para Bézier:** Bézier usa 4 pontos de posição no espaço. Hermite usa 2 pontos de posição e 2 vetores de direção.
+* **Como funciona:** No código, o usuário clica 4 pontos:
+  * P1 é o início da curva.
+  * O vetor R1 é calculado pela diferença `P2 - P1` (inclinação de saída).
+  * P4 é o fim da curva.
+  * O vetor R4 é calculado pela diferença `P4 - P3` (inclinação de chegada).
 * **Pergunta do Professor:** *"O que acontece se eu inverter o sentido de um dos vetores tangentes em Hermite?"*
-  * **Resposta:** *"A curva muda radicalmente de trajetória: em vez de fazer um arco direto, ela é forçada a dar um laço (looping) ou uma inflexão em 'S' para conseguir chegar ao ponto final na direção oposta exigida pelo vetor."*
+  * **Resposta:** *"A curva dá uma volta ou um laço (loop) no espaço para conseguir chegar ao ponto final na direção contrária exigida pela tangente invertida."*
 
 ---
 
-### 4. B-Splines Uniformes
-* **Arquivos e Linhas:** `uPoligono.cpp` (396–425) / `Uprincipal.cpp` (472–500)
-* **O que é:** Uma sequência de curvas cúbicas conectadas suavemente, calculada usando matrizes polinomiais (fator 1/6).
-* **O grande diferencial (Controle Local):**
-  * Em curvas de Bézier com muitos pontos, se você mover um único ponto, **toda a curva** se deforma (controle global).
-  * Em B-Splines, a curva possui **controle local**: mover um ponto de controle afeta apenas os segmentos vizinhos mais próximos, mantendo o restante da curva inalterado.
-  * Ela não passa necessariamente por nenhum dos pontos de controle (nem o primeiro nem o último), gerando um traçado extremamente suave (continuidade C2).
+### 4. Curva B-Spline Uniforme (Matricial)
+* **Arquivos e Linhas:** `uPoligono.cpp` (400–429) / `Uprincipal.cpp` (472–500)
+* **O que é:** Uma curva spline cúbica gerada pela multiplicação matricial com a matriz base uniforme de B-Spline (com fator 1/6).
+* **Vantagem fundamental sobre Bézier:**
+  * Na curva de Bézier, se você mover um único ponto de controle, a curva inteira se deforma (controle global).
+  * Na **B-Spline**, o controle é **local**: mover um ponto altera somente a região vizinha, mantendo o restante da curva intacto e com transição suave (continuidade C2).
 * **Pergunta do Professor:** *"Por que usamos B-Spline em vez de uma curva de Bézier simples em projetos complexos?"*
   * **Resposta:** *"Porque a B-Spline garante controle local e continuidade de curvatura suave entre segmentos. Se alterarmos a posição de um ponto no meio de um desenho grande, só um trecho pequeno é recalculado, sem desarmar o restante da curva."*
 
 ---
 
 ### 5. Diferenças Finitas (Forward Differences)
-* **Arquivos e Linhas:** `uPoligono.cpp` (427–469) / `Uprincipal.cpp` (502–523)
+* **Arquivos e Linhas:** `uPoligono.cpp` (432–474) / `Uprincipal.cpp` (502–523)
 * **O que é:** Uma técnica de otimização numérica para traçar curvas polinomiais de forma ultra rápida.
 * **Como funciona:**
   * Em vez de resolver polinômios com potências cúbicas (multiplicações lentas de t*t*t) para cada ponto da tela, calculam-se as diferenças iniciais (derivadas discretas).
@@ -135,7 +136,7 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 ### Pergunta 1: *"Onde está o Window-to-Viewport e por que o eixo Y precisa ser invertido?"*
 * **Onde mostrar no código:**
-  * Mundo para Tela: [`Unit1.cpp: linhas 19 a 27`](Unit1.cpp#L19-L27) (`xW2Vp` e `yW2Vp`).
+  * Mundo para Tela: [`Unit1.cpp: linhas 20 a 29`](Unit1.cpp#L20-L29) (`xW2Vp` e `yW2Vp`).
   * Tela para Mundo: [`Uprincipal.cpp: linhas 27 a 33`](Uprincipal.cpp#L27-L33) (`xVp2Mundo` e `yVp2Mundo`).
 * **Como responder:**
   > *"Professor, o mundo cartesiano trabalha com coordenadas reais e com o eixo Y crescendo para cima a partir do centro (0,0). Mas o monitor do computador (a viewport) trabalha com pixels inteiros e o eixo Y cresce para baixo a partir do canto superior esquerdo. Na função `yW2Vp`, usamos o termo `(1 - ...)` para inverter a direção vertical, garantindo que o topo do objeto fique no topo da tela."*
@@ -165,7 +166,7 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 * **Onde mostrar no código:**
   * Rotação Simples: [`uPoligono.cpp: linhas 243 a 247`](uPoligono.cpp#L243-L247).
   * Cálculo do Centroide: [`uPoligono.cpp: linhas 249 a 263`](uPoligono.cpp#L249-L263) (`pontoMedio`).
-  * Rotação Homogênea: [`uPoligono.cpp: linhas 265 a 305`](uPoligono.cpp#L265-L305) (`rotacaoHomogenea`).
+  * Rotação Homogênea: [`uPoligono.cpp: linhas 266 a 306`](uPoligono.cpp#L266-L306) (`rotacaoHomogenea`).
 * **Como responder:**
   > *"A rotação matemática pura sempre gira os pontos em torno da origem (0,0). Se o objeto estiver desenhado em outra parte da tela, ele vai orbitar a origem e mudar de posição.*
   > 
@@ -175,8 +176,8 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 ### Pergunta 5: *"Como funciona o algoritmo de recorte (Clipping) de Cohen-Sutherland?"*
 * **Onde mostrar no código:**
-  * Código de Região (Outcode): [`Unit1.cpp: linhas 62 a 75`](Unit1.cpp#L62-L75) (`Ponto::cohen`).
-  * Algoritmo de Recorte: [`uPoligono.cpp: linhas 478 a 610`](uPoligono.cpp#L478-L610) (`Poligono::clipping`).
+  * Código de Região (Outcode): [`Unit1.cpp: linhas 64 a 77`](Unit1.cpp#L64-L77) (`Ponto::cohen`).
+  * Algoritmo de Recorte: [`uPoligono.cpp: linhas 485 a 617`](uPoligono.cpp#L485-L617) (`Poligono::clipping`).
   * Botão na UI: [`Uprincipal.cpp: linhas 525 a 585`](Uprincipal.cpp#L525-L585) (`btClippingClick`).
 * **Como responder:**
   > *"Ele divide o espaço em 9 regiões através de uma máscara de 4 bits: bit 0 para Esquerda, bit 1 para Direita, bit 2 para Abaixo e bit 3 para Acima.*
@@ -257,7 +258,7 @@ Se o professor pedir para abrir o código e explicar, aqui está exatamente o qu
 
 ### Pergunta 11: *"O que é o Display File e por que não desenhamos direto na tela?"*
 * **Onde mostrar no código:**
-  * [`uDisplay.cpp: linhas 15 a 60`](uDisplay.cpp#L15-L60) (`DisplayFile`).
+  * [`uDisplay.cpp: linhas 13 a 44`](uDisplay.cpp#L13-L44) (`DisplayFile`).
 * **Como responder:**
   > *"O **Display File** é a estrutura de dados central (uma lista de polígonos e objetos 3D) que armazena a descrição geométrica de toda a cena em coordenadas reais de mundo.*
   > 
@@ -271,7 +272,7 @@ Se o professor apontar para a tela ou seguir a planilha de avaliação, as linha
 
 | Item na Planilha | Como Funciona (Resumo Direto) | Onde está no Código |
 | :--- | :--- | :--- |
-| **1. Transformadas** | Mapeia números reais para pixels, invertendo o eixo vertical com `(1 - ...)` | [`Unit1.cpp: 19–27`](Unit1.cpp#L19-L27) |
+| **1. Transformadas** | Mapeia números reais para pixels, invertendo o eixo vertical com `(1 - ...)` | [`Unit1.cpp: 20–29`](Unit1.cpp#L20-L29) |
 | **2. Movimentação** | Pan desloca limites do mundo (+/- 10); Zoom encolhe/amplia a janela da câmera | [`Uprincipal.cpp: 163`](Uprincipal.cpp#L163) / [`196`](Uprincipal.cpp#L196) |
 | **3. Mundo** | Inversa da Window-to-Viewport; converte o clique de pixel do mouse em ponto cartesiano | [`Uprincipal.cpp: 27–33`](Uprincipal.cpp#L27-L33) |
 | **4. Reta DDA** | Lento; calcula incrementos com ponto flutuante (`float`), divisão e arredonda com `floor` | [`uPoligono.cpp: 19–54`](uPoligono.cpp#L19-L54) |
@@ -280,18 +281,12 @@ Se o professor apontar para a tela ou seguir a planilha de avaliação, as linha
 | **7. Translação** | Deslocamento linear somando dx e dy em cada vértice do polígono | [`uPoligono.cpp: 231–235`](uPoligono.cpp#L231-L235) |
 | **8. Rotação Simples (rot)** | Rotação trigonométrica pura na origem; faz o objeto orbitar e sair do lugar | [`uPoligono.cpp: 243–247`](uPoligono.cpp#L243-L247) |
 | **9. Escalonamento (esc)** | Multiplica coordenadas por Sx e Sy; altera a geometria real do objeto no mundo | [`uPoligono.cpp: 237–241`](uPoligono.cpp#L237-L241) |
-| **10. Reflexão (reflexao)** | Inverte sinais: Eixo X (`y = -y`), Eixo Y (`x = -x`), Eixo XY (`ambos os eixos`) | [`uPoligono.cpp: 307–324`](uPoligono.cpp#L307-L324) |
-| **11. Rot. Homogênea (Homog)** | Matrizes 3x3: translada o centro para origem, gira e translada de volta (T * R * T_inversa) | [`uPoligono.cpp: 265–305`](uPoligono.cpp#L265-L305) |
-| **12. Clipping** | Cohen-Sutherland com 4 bits: aceitação (`OU=0`), rejeição (`E!=0`) e corte analítico | [`uPoligono.cpp: 478–610`](uPoligono.cpp#L478-L610) |
-| **13. Curva Casteljau** | Subdivisão geométrica recursiva por pontos médios até segmentos ficarem <= 1 pixel | [`uPoligono.cpp: 326–349`](uPoligono.cpp#L326-L349) |
-| **14. Curva Hermite** | Polinômio cúbico definido por 2 pontos nas pontas e 2 vetores tangentes de direção | [`uPoligono.cpp: 351–376`](uPoligono.cpp#L351-L376) |
-| **15. Curva Bézier** | 4 pontos: passa só no início e fim; os 2 do meio agem como "ímãs" com Bernstein | [`uPoligono.cpp: 378–394`](uPoligono.cpp#L378-L394) |
-| **16. B-Spline** | Matriz base 1/6; curvas suaves com controle local (mexer num ponto não deforma tudo) | [`uPoligono.cpp: 396–425`](uPoligono.cpp#L396-L425) |
-| **17. Forward Diff.** | Otimização numérica; substitui multiplicações cúbicas por somas discretas no laço | [`uPoligono.cpp: 427–469`](uPoligono.cpp#L427-L469) |
+| **10. Reflexão (reflexao)** | Inverte sinais: Eixo X (`y = -y`), Eixo Y (`x = -x`), Eixo XY (`ambos os eixos`) | [`uPoligono.cpp: 308–325`](uPoligono.cpp#L308-L325) |
+| **11. Rot. Homogênea (Homog)** | Matrizes 3x3: translada o centro para origem, gira e translada de volta (T * R * T_inversa) | [`uPoligono.cpp: 266–306`](uPoligono.cpp#L266-L306) |
+| **12. Clipping** | Cohen-Sutherland com 4 bits: aceitação (`OU=0`), rejeição (`E!=0`) e corte analítico | [`uPoligono.cpp: 485–617`](uPoligono.cpp#L485-L617) |
+| **13. Curva Casteljau** | Subdivisão geométrica recursiva por pontos médios até segmentos ficarem <= 1 pixel | [`uPoligono.cpp: 327–350`](uPoligono.cpp#L327-L350) |
+| **14. Curva Hermite** | Polinômio cúbico definido por 2 pontos nas pontas e 2 vetores tangentes de direção | [`uPoligono.cpp: 353–378`](uPoligono.cpp#L353-L378) |
+| **15. Curva Bézier** | 4 pontos: passa só no início e fim; os 2 do meio agem como "ímãs" com Bernstein | [`uPoligono.cpp: 381–397`](uPoligono.cpp#L381-L397) |
+| **16. B-Spline** | Matriz base 1/6; curvas suaves com controle local (mexer num ponto não deforma tudo) | [`uPoligono.cpp: 400–429`](uPoligono.cpp#L400-L429) |
+| **17. Forward Diff.** | Otimização numérica; substitui multiplicações cúbicas por somas discretas no laço | [`uPoligono.cpp: 432–474`](uPoligono.cpp#L432-L474) |
 | **18. 3D** | Modelo de arame; deduplica arestas e projeta em Perspectiva (divide por d - z), Orto ou Cavaleira | [`uObjeto3D.cpp: 59–521`](uObjeto3D.cpp#L59-L521) |
-
-
-
-
-
-

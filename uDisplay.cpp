@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 #pragma hdrstop
 #include "uDisplay.h"
 //---------------------------------------------------------------------------
@@ -9,7 +9,8 @@ DisplayFile::DisplayFile() {
   distPerspectiva = 400.0; // Distância focal padrão
 }
 
-void DisplayFile::desenha(TCanvas *canvas, Janela mundo, Janela vp, int tipoReta) { // Limpa o Canvas e redesenha todos os polígonos e objetos 3D da cena
+// Limpa o Canvas e redesenha todos os polígonos e objetos 3D da cena
+void DisplayFile::desenha(TCanvas *canvas, Janela mundo, Janela vp, int tipoReta) {
   canvas->Brush->Color = clSilver;
   canvas->FillRect(Rect(0, 0, 500, 500));
 
@@ -27,7 +28,8 @@ void DisplayFile::desenha(TCanvas *canvas, Janela mundo, Janela vp, int tipoReta
   }
 }
 
-void DisplayFile::mostra(TListBox *listbox) { // Atualiza a lista visual do formulário com polígonos e objetos 3D
+// Atualiza a lista visual do formulário com polígonos e objetos 3D
+void DisplayFile::mostra(TListBox *listbox) {
   listbox->Items->Clear();
   for (size_t i = 0; i < poligonos.size(); i++) {
     poligonos[i].mostra(listbox);

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -16,12 +16,14 @@ Ponto::Ponto(double nx, double ny){    // Construtor parametrizado: inicializa o
  y = ny;
 }
 
-int Ponto::xW2Vp(Janela mundo, Janela Vp){    // Mapeamento de coordenadas (World to Viewport): converte X de mundo para pixel na tela
+// Mapeamento de coordenadas (World to Viewport): converte X de mundo para pixel na tela
+int Ponto::xW2Vp(Janela mundo, Janela Vp){
 	return  ((x  - mundo.xMin) / (mundo.xMax - mundo.xMin)) *
 	(Vp.xMax - Vp.xMin);
 }
 
-int Ponto::yW2Vp(Janela mundo, Janela Vp){    // Mapeamento de coordenadas (World to Viewport): converte Y de mundo para pixel na tela (com inversão do eixo Y)
+// Mapeamento de coordenadas (World to Viewport): converte Y de mundo para pixel na tela (com inversão do eixo Y)
+int Ponto::yW2Vp(Janela mundo, Janela Vp){
 	return (1-((y - mundo.yMin) / (mundo.yMax - mundo.yMin))) *
 	(Vp.yMax - Vp.yMin);
 }
@@ -35,12 +37,12 @@ String Ponto::mostra(){    // Retorna a representação formatada do ponto em te
   }
 }
 
-void Ponto::translacao(double dx, double dy){    // Deslocamento 2D: translada o ponto somando os incrementos dx e dy
+void Ponto::translacao(double dx, double dy){ // Deslocamento 2D: translada o ponto somando os incrementos dx e dy
 	x += dx;
 	y += dy;
 }
 
-void Ponto::escalonamento(double dx, double dy){    // Escalonamento 2D: multiplica as coordenadas do ponto pelos fatores dx e dy
+void Ponto::escalonamento(double dx, double dy){ // Escalonamento 2D: multiplica as coordenadas do ponto pelos fatores dx e dy
 	x *= dx;
 	y *= dy;
 }
