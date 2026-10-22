@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 #pragma hdrstop
 
 #include "uPoligono.h"
@@ -159,8 +159,8 @@ void Poligono::DesenhaPontoCircunferencia(int xc, int yc, int x, int y){
 
 }
 
-
-void Poligono::desenha(TCanvas *canvas, Janela mundo, Janela vp, int TipoReta){    // Rasterização e exibição do polígono no Canvas (Padrão, DDA ou Bresenham)
+// Rasterização e exibição do polígono no Canvas (Padrão, DDA ou Bresenham)
+void Poligono::desenha(TCanvas *canvas, Janela mundo, Janela vp, int TipoReta){
 	if (pontos.empty()) {
 		return;
 	}
@@ -262,7 +262,8 @@ Ponto Poligono::pontoMedio(){  // Calcula o ponto médio (centroide) do polígon
 	return (Ponto(pontoMedioX, pontoMedioY));
 }
 
-void Poligono::rotacaoHomogenea(double graus){    // Transformação 2D: Rotação Homogênea em torno do centro do polígono (Matrizes 3x3)
+// Transformação 2D: Rotação Homogênea em torno do centro do polígono (Matrizes 3x3)
+void Poligono::rotacaoHomogenea(double graus){
 
 	Ponto central = pontoMedio();
 
@@ -323,7 +324,7 @@ void Poligono::reflexaoEixoXY() { // Transformação 2D: Reflexão simultânea e
 	}
 }
 
-void Poligono::casteljau(Ponto p0, Ponto p1, Ponto p2) {    // Curva de Bézier: Algoritmo de de Casteljau (ponto inicial)
+void Poligono::casteljau(Ponto p0, Ponto p1, Ponto p2) { // Curva de Bézier: Algoritmo de de Casteljau (ponto inicial)
 	pontos.push_back(p0);
 	casteljauRecursivo(p0, p1, p2);
 }
@@ -348,7 +349,8 @@ void Poligono::casteljauRecursivo(Ponto p0, Ponto p1, Ponto p2) {    // Subdivis
 	}
 }
 
-void Poligono::hermite(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva de Hermite (cálculo de vetores tangentes e polinômios cúbicos)
+// Curva de Hermite (cálculo de vetores tangentes e polinômios cúbicos)
+void Poligono::hermite(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {
 	Ponto r1, r4;
 	r1.x = p2.x - p1.x;
 	r1.y = p2.y - p1.y;
@@ -375,7 +377,8 @@ void Poligono::hermite(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva de 
 	}
 }
 
-void Poligono::bezier(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva de Bézier cúbica via polinômios de Bernstein
+// Curva de Bézier cúbica via polinômios de Bernstein
+void Poligono::bezier(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {
 	for (double t = 0; t < 1; t += 0.01) {
 		double x = 0;
 		double y = 0;
@@ -393,7 +396,8 @@ void Poligono::bezier(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva de B
 	}
 }
 
-void Poligono::bSpline(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva B-Spline Cúbica Uniforme (multiplicação pela matriz base M)
+// Curva B-Spline Cúbica Uniforme (multiplicação pela matriz base M)
+void Poligono::bSpline(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {
 	double M[4][4] = {{-1/6.0, 3/6.0, -3/6.0, 1/6.0},
 					  {3/6.0, -6/6.0, 3/6.0, 0/6.0},
 					  {-3/6.0, 0/6.0, 3/6.0, 0/6.0},
@@ -424,7 +428,8 @@ void Poligono::bSpline(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva B-S
 	}
 }
 
-void Poligono::fwdDifferences(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Curva B-Spline calculada pelo método de Diferenças Progressivas (Forward Differences)
+ // Curva B-Spline calculada pelo método de Diferenças Progressivas (Forward Differences)
+void Poligono::fwdDifferences(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {
 	double M[4][4] = {{-1/6.0, 3/6.0, -3/6.0, 1/6.0},
 					  {3/6.0, -6/6.0, 3/6.0, 0/6.0},
 					  {-3/6.0, 0/6.0, 3/6.0, 0/6.0},
@@ -468,14 +473,16 @@ void Poligono::fwdDifferences(Ponto p1, Ponto p2, Ponto p3, Ponto p4) {    // Cu
 	}
 }
 
-Ponto Poligono::novoPonto(Ponto aux, double x, double y){    // Função auxiliar para instanciar ou atualizar um Ponto com novas coordenadas
+// Função auxiliar para instanciar ou atualizar um Ponto com novas coordenadas
+Ponto Poligono::novoPonto(Ponto aux, double x, double y){
 	Ponto ponto = aux;
 	ponto.x = x;
 	ponto.y = y;
 	return ponto;
 }
 
-Poligono Poligono::clipping(Janela clip){    // Algoritmo de Cohen-Sutherland para recorte de retas contra a janela de clipping
+// Algoritmo de Cohen-Sutherland para recorte de retas contra a janela de clipping
+Poligono Poligono::clipping(Janela clip){
 	Poligono poligono;
 	Ponto auxPon;
 	int clipPonto1, clipPonto2;
