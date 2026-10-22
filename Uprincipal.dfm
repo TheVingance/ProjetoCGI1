@@ -158,7 +158,7 @@ object Form1: TForm1
     Top = 277
     Width = 437
     Height = 202
-    ActivePage = TabSheet3D
+    ActivePage = TabSheet2
     TabOrder = 10
     object TabSheet1: TTabSheet
       Caption = 'Mundo'
@@ -625,7 +625,7 @@ object Form1: TForm1
     OnClick = CirculoClick
   end
   object btClipping: TButton
-    Left = 728
+    Left = 766
     Top = 485
     Width = 122
     Height = 25
